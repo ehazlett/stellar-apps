@@ -1,0 +1,94 @@
+name = "logs"
+
+[[services]]
+  name = "loki"
+  image = "docker.io/grafana/loki:2.6.1"
+  replicas = 1
+  [services.process]
+    args = [
+      "/usr/bin/loki",
+      "-config.file=/etc/loki.yaml",
+    ]
+  [services.network]
+    type = "stellar"
+
+  [[services.configs]]
+    name = "loki-config"
+    path = "/etc/loki.yaml"
+    content = '''# managed by stellar
+auth_enabled: false
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9096
+common:
+  path_prefix: /tmp/loki
+  storage:
+    filesystem:
+      chunks_directory: /tmp/loki/chunks
+      rules_directory: /tmp/loki/rules
+  replication_factor: 1
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: inmemory
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+ruler:
+  alertmanager_url: http://localhost:9093
+analytics:
+  reporting_enabled: false
+
+'''
+
+[[services]]
+  name = "promtail"
+  image = "docker.io/grafana/promtail:2.6.1"
+  [services.process]
+    args = [
+      "/usr/bin/promtail",
+      "-config.file=/etc/promtail.yaml",
+    ]
+  [[services.mounts]]
+    type = "bind"
+    source = "/var/lib/stellar/containers"
+    destination = "/containers"
+    options = ["rbind", "ro"]
+  [services.placementPreference]
+    strategy = "global"
+  [services.network]
+    type = "stellar"
+  [[services.configs]]
+    name = "promtail-config"
+    path = "/etc/promtail.yaml"
+    content = '''# managed by stellar
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+positions:
+  filename: /tmp/positions.yaml
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+scrape_configs:
+- job_name: system
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /containers/*/*log
+
+'''
+
+[[services]]
+  name = "grafana"
+  image = "docker.io/grafana/grafana:latest"
+  replicas = 1
+  [services.network]
+    type = "stellar"
