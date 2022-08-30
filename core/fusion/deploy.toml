@@ -1,0 +1,24 @@
+name = "fusion"
+
+[[services]]
+  name = "lb"
+  image = "docker.io/ehazlett/stellar-fusion:latest"
+  replicas = 1
+  [services.process]
+    args = [
+      "fusion",
+      "server",
+      "-c",
+      "/etc/fusion.toml",
+    ]
+  [services.network]
+    type = "stellar"
+
+  [[services.configs]]
+    name = "fusion-config"
+    path = "/etc/fusion.toml"
+    content = '''# stellar fusion
+StellarAddress = "10.50.255.1:8080"
+HTTPAddress = ":80"
+EnableProxyHeaders = true
+'''

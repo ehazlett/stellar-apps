@@ -1,0 +1,34 @@
+name = "dns"
+
+[[services]]
+  name = "coredns"
+  image = "docker.io/ehazlett/stellar-coredns:latest"
+  replicas = 1
+  [services.process]
+    args = [
+      "coredns",
+      "-conf",
+      "/etc/corefile",
+    ]
+  [services.network]
+    type = "stellar"
+    address = "10.50.0.2/24"
+    dns = "1.1.1.1"
+
+  [[services.configs]]
+    name = "coredns-config"
+    path = "/etc/corefile"
+    content = '''# stellar coredns
+. {
+  log
+  forward . 1.1.1.1
+}
+
+apps.stellar.local {
+  log
+  debug
+  stellar 10.50.255.1:8080 {
+    fallthrough
+  }
+}
+'''
