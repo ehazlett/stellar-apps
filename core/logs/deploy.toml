@@ -2,7 +2,7 @@ name = "logs"
 
 [[services]]
   name = "loki"
-  image = "docker.io/grafana/loki:2.6.1"
+  image = "docker.io/grafana/loki:latest"
   replicas = 1
   [services.process]
     args = [
@@ -49,7 +49,7 @@ analytics:
 
 [[services]]
   name = "promtail"
-  image = "docker.io/grafana/promtail:2.6.1"
+  image = "docker.io/grafana/promtail:latest"
   [services.process]
     args = [
       "/usr/bin/promtail",
