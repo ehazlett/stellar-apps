@@ -1,6 +1,6 @@
 name = "buildkit"
 [labels]
-  stellar.application = "buildkit"
+  "stellar.application" = "buildkit"
 
 [[services]]
   name = "app"

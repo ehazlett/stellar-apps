@@ -1,6 +1,6 @@
 name = "logs"
 [labels]
-  stellar.application = "logs"
+  "stellar.application" = "logs"
 
 [[services]]
   name = "loki"

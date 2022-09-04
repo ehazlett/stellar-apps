@@ -1,6 +1,6 @@
 name = "fusion"
 [labels]
-  stellar.application = "fusion"
+  "stellar.application" = "fusion"
 
 [[services]]
   name = "lb"
