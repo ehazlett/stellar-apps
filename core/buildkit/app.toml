@@ -1,0 +1,16 @@
+name = "buildkit"
+
+[[services]]
+  name = "app"
+  image = "docker.io/moby/buildkit:buildx-stable-1"
+  replicas = 1
+  privileged = true
+  [services.process]
+    args = ["buildkitd", "--addr", "tcp://0.0.0.0:9000"]
+  [services.network]
+    type = "stellar"
+  [[services.mounts]]
+    type = "bind"
+    source = "/sys"
+    destination = "/sys"
+    options = ["rbind", "rw"]
