@@ -1,5 +1,5 @@
 name = "buildkit"
-[labels]
+[[labels]]
   stellar.application = "buildkit"
 
 [[services]]
