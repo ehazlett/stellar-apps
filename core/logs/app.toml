@@ -1,4 +1,6 @@
 name = "logs"
+[labels]
+  stellar.application = "logs"
 
 [[services]]
   name = "loki"

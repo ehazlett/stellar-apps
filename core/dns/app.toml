@@ -1,4 +1,6 @@
 name = "dns"
+[labels]
+  stellar.application = "dns"
 
 [[services]]
   name = "coredns"

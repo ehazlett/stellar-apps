@@ -1,4 +1,6 @@
 name = "fusion"
+[labels]
+  stellar.application = "fusion"
 
 [[services]]
   name = "lb"
