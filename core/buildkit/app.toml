@@ -16,3 +16,7 @@ name = "buildkit"
     source = "/sys"
     destination = "/sys"
     options = ["rbind", "rw"]
+  [[services.endpoints]]
+    [services.endpoints.config]
+      [services.endpoints.config.tcp]
+        port = 9000
