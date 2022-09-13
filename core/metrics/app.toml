@@ -1,4 +1,28 @@
-name = "node-metrics"
+name = "metrics"
+
+[[services]]
+  name = "prometheus"
+  image = "docker.io/prom/prometheus:latest"
+  replicas = 1
+  [services.process]
+    args = [
+      "/bin/prometheus",
+      "--config.file=/etc/prometheus/prometheus.yml",
+      "--web.enable-remote-write-receiver",
+    ]
+  [services.network]
+    type = "stellar"
+  [[services.configs]]
+    name = "prometheus"
+    path = "/etc/prometheus/prometheus.yml"
+    content = '''# managed by stellar
+global:
+  scrape_interval:     15s
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['127.0.0.1:9090']
+'''
 
 [[services]]
   name = "agent"
@@ -31,3 +55,10 @@ scrape_configs:
 remote_write:
 - url: 'http://prometheus:9090/api/v1/write'
 '''
+
+[[services]]
+  name = "grafana"
+  image = "docker.io/grafana/grafana:latest"
+  replicas = 1
+  [services.network]
+    type = "stellar"

@@ -87,3 +87,10 @@ scrape_configs:
       __path__: /containers/*/*log
 
 '''
+
+[[services]]
+  name = "grafana"
+  image = "docker.io/grafana/grafana:latest"
+  replicas = 1
+  [services.network]
+    type = "stellar"
