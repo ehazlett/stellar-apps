@@ -1,0 +1,57 @@
+name = "metrics"
+
+[[services]]
+  name = "prometheus"
+  image = "docker.io/prom/prometheus:latest"
+  replicas = 1
+  [services.process]
+    args = [
+      "/bin/prometheus",
+      "--config.file=/etc/prometheus/prometheus.yml",
+      "--web.enable-remote-write-receiver",
+    ]
+  [services.network]
+    type = "stellar"
+  [[services.configs]]
+    name = "prometheus"
+    path = "/etc/prometheus/prometheus.yml"
+    content = '''# managed by stellar
+global:
+  scrape_interval:     15s
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['127.0.0.1:9090']
+'''
+
+[[services]]
+  name = "prometheus-agent"
+  image = "docker.io/prom/prometheus:latest"
+  [services.process]
+    args = [
+      "/bin/prometheus",
+      "--enable-feature=agent",
+      "--config.file=/etc/prometheus/prometheus.yml",
+    ]
+  [services.placementPreference]
+    strategy = "global"
+  [services.network]
+    type = "stellar"
+  [[services.configs]]
+    name = "prometheus"
+    path = "/etc/prometheus/prometheus.yml"
+    content = '''# managed by stellar
+global:
+  scrape_interval: 15s
+  external_labels:
+    agent: {{ .Agent.Name }}
+
+scrape_configs:
+  - job_name: "containerd"
+    metrics_path: /v1/metrics
+    static_configs:
+      - targets: ["{{ .Agent.AgentIP }}:10000"]
+
+remote_write:
+- url: 'http://prometheus:9090/api/v1/write'
+'''

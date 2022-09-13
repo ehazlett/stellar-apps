@@ -1,0 +1,10 @@
+name = "grafana"
+[labels]
+  "stellar.application" = "grafana"
+
+[[services]]
+  name = "app"
+  image = "docker.io/grafana/grafana:latest"
+  replicas = 1
+  [services.network]
+    type = "stellar"
