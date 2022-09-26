@@ -5,7 +5,7 @@ name = "fusion"
 [[services]]
   name = "lb"
   image = "docker.io/ehazlett/stellar-fusion:latest"
-  replicas = 1
+  replicas = 2
   [services.process]
     args = [
       "fusion",
