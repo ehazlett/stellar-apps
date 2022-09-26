@@ -11,5 +11,5 @@ name = "hello"
   [[services.endpoints]]
     [services.endpoints.config]
       [services.endpoints.config.http]
-        host = "hello.apps.stellar.local"
+        host = "hello.{{.Cluster.Config.ClusterDomain}}"
         port = 80
