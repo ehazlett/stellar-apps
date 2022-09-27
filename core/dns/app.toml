@@ -27,7 +27,7 @@ name = "dns"
   forward . {{ if ne (index .Params "dns") "" }}{{ index .Params "dns" }}{{ else }}1.1.1.1{{ end }}
 }
 
-apps.stellar.local {
+{{.Cluster.Config.ClusterDomain}} {
   log
   debug
   stellar 10.50.255.1:8080 {
