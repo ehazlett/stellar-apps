@@ -62,3 +62,8 @@ remote_write:
   replicas = 1
   [services.network]
     type = "stellar"
+  [[services.endpoints]]
+    [services.endpoints.config]
+      [services.endpoints.config.http]
+        host = "{{ if ne (index .Params \"name\") \"\" }}{{ index .Params \"name\" }}{{ else }}metrics{{ end }}.{{.Cluster.Config.ClusterDomain}}"
+        port = 3000

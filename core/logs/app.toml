@@ -94,3 +94,8 @@ scrape_configs:
   replicas = 1
   [services.network]
     type = "stellar"
+  [[services.endpoints]]
+    [services.endpoints.config]
+      [services.endpoints.config.http]
+        host = "{{ if ne (index .Params \"name\") \"\" }}{{ index .Params \"name\" }}{{ else }}logs{{ end }}.{{.Cluster.Config.ClusterDomain}}"
+        port = 3000

@@ -5,6 +5,7 @@ name = "dns"
 [[services]]
   name = "coredns"
   image = "docker.io/ehazlett/stellar-coredns:latest"
+  pull = true
   replicas = 1
   [services.process]
     args = [
