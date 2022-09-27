@@ -16,7 +16,8 @@ name = "fusion"
     ]
   [services.network]
     type = "stellar"
-
+  [services.placementPreference]
+    strategy = "spread"
   [[services.configs]]
     name = "fusion-config"
     path = "/etc/fusion.toml"
