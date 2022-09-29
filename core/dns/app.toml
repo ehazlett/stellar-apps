@@ -15,7 +15,6 @@ name = "dns"
     ]
   [services.network]
     type = "stellar"
-    address = "10.50.0.2/24"
 
   [[services.configs]]
     name = "coredns-config"

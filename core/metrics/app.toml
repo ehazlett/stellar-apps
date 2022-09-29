@@ -65,5 +65,5 @@ remote_write:
   [[services.endpoints]]
     [services.endpoints.config]
       [services.endpoints.config.http]
-        host = "{{ if ne (index .Params \"name\") \"\" }}{{ index .Params \"name\" }}{{ else }}metrics{{ end }}.{{.Cluster.Config.ClusterDomain}}"
+        host = "{{ if ne (index .Params \"domain\") \"\" }}{{ index .Params \"domain\" }}{{ else }}metrics.stellar.local{{ end }}"
         port = 3000
