@@ -4,7 +4,7 @@ name = "dns"
 
 [[services]]
   name = "coredns"
-  image = "docker.io/ehazlett/stellar-coredns:latest"
+  image = "docker.io/axyon/coredns:latest"
   pull = true
   replicas = 1
   [services.process]
@@ -16,7 +16,6 @@ name = "dns"
   [services.network]
     type = "stellar"
     address = "10.50.0.2/24"
-    dns = "1.1.1.1"
 
   [[services.configs]]
     name = "coredns-config"
@@ -27,7 +26,7 @@ name = "dns"
   forward . {{ if ne (index .Params "dns") "" }}{{ index .Params "dns" }}{{ else }}1.1.1.1{{ end }}
 }
 
-{{.Cluster.Config.ClusterDomain}} {
+{{ if ne (index .Params "domain") "" }}{{ index .Params "domain" }}{{ else }}stellar.local{{ end }} {
   log
   debug
   stellar 10.50.255.1:8080 {

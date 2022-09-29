@@ -4,7 +4,7 @@ name = "fusion"
 
 [[services]]
   name = "lb"
-  image = "docker.io/ehazlett/stellar-fusion:latest"
+  image = "docker.io/axyon/fusion:latest"
   pull = true
   replicas = 2
   [services.process]
@@ -22,7 +22,7 @@ name = "fusion"
     name = "fusion-config"
     path = "/etc/fusion.toml"
     content = '''# stellar fusion
-StellarAddress = "10.50.255.1:8080"
+StellarAddress = {{ if ne (index .Params "api-endpoint") "" }}"{{ index .Params "api-endpint" }}"{{ else }}"10.50.255.1:8080"{{ end }}
 HTTPAddress = ":80"
 EnableProxyHeaders = true
 '''
