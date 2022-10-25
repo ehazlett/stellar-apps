@@ -15,7 +15,8 @@ name = "dns"
     ]
   [services.network]
     type = "stellar"
-
+  [services.placementPreference]
+    strategy = "spread"
   [[services.configs]]
     name = "coredns-config"
     path = "/etc/corefile"
